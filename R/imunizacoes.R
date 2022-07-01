@@ -33,7 +33,8 @@ imunizacoes_tidy_filtro <- imunizacoes_tidy |>
       tipos == "cobertura_dtp" |
       tipos == "cobertura_poliomielite" |
       tipos == "cobertura_febre_amarela" |
-      tipos == "cobertura_hepatite_b"
+      tipos == "cobertura_hepatite_b" |
+      tipos == "cobertura_triplice_bacteriana"
   )
 
 
@@ -61,7 +62,8 @@ imunizacoes_visualizar <-
       tipos == "cobertura_dtp" ~ "DTP",
       tipos == "cobertura_poliomielite" ~ "Poliomelite",
       tipos == "cobertura_febre_amarela" ~ "Febre \nAmarela",
-      tipos == "cobertura_hepatite_b" ~ "Hepatite B"
+      tipos == "cobertura_hepatite_b" ~ "Hepatite B",
+      tipos == "cobertura_triplice_bacteriana" ~ "Tríplice \nBacteriana"
     ),
     painel = dplyr::case_when(
       painel == "cobertura_total" ~ "Total",
@@ -69,7 +71,8 @@ imunizacoes_visualizar <-
       painel == "cobertura_dtp" ~ "DTP",
       painel == "cobertura_poliomielite" ~ "Poliomelite",
       painel == "cobertura_febre_amarela" ~ "Febre \nAmarela",
-      painel == "cobertura_hepatite_b" ~ "Hepatite B"
+      painel == "cobertura_hepatite_b" ~ "Hepatite B",
+      painel == "cobertura_triplice_bacteriana" ~ "Tríplice \nBacteriana"
     ),
     numero = ifelse((ano == min(ano) |
                        ano == max(ano)) & realce == 1, 1, 0),
@@ -87,7 +90,7 @@ imunizacoes_todas <- imunizacoes_visualizar |>
     group = tipos,
     color = realce
   ) +
-  geom_line(color = "grey80",
+  geom_line(color = "grey60",
             size = 1.3,
             show.legend = FALSE) +
   geom_line(
@@ -124,7 +127,7 @@ imunizacoes_todas <- imunizacoes_visualizar |>
     subtitle = "para os últimos 20 anos",
     x = "",
     y = "",
-    caption = "Dados: Ministério do Saúde | @lppufsm"
+    caption = "Dados: Base dos Dados (Ministério do Saúde) | @lppufsm"
   ) +
   theme_minimal() +
   theme(
@@ -132,9 +135,11 @@ imunizacoes_todas <- imunizacoes_visualizar |>
     axis.text.y = element_blank(),
     axis.line.x = element_line(),
     # plot.margin = unit(c(0.3, 1, 1, 1), "cm"),
-    text = element_text(family = "Roboto")
+    text = element_text(family = "Roboto"),
+    plot.background = element_rect(fill = "grey90"),
+    plot.caption = element_text(hjust = .95, size = 7)
   ) +
-  facet_wrap(vars(painel), nrow = 6, strip.position = "left") +
+  facet_wrap(vars(painel), nrow = 7, strip.position = "left") +
   coord_cartesian(clip = "off")
 
 
@@ -192,13 +197,15 @@ imunizacoes_bcg <- imunizacoes_tidy |>
     # subtitle = "",
     x = "",
     y = "Cobertura vacinal",
-    caption = "Dados: Ministério da Saúde | @lppufsm"
+    caption = "Dados: Base dos Dados (Ministério da Saúde) | @lppufsm"
   ) +
   theme_minimal() +
   theme(
     # plot.margin = unit(c(0.3, 1, 1, 0.1), "cm"),
     axis.title = element_text(size = 10),
-    text = element_text(family = "Roboto")
+    text = element_text(family = "Roboto"),
+    plot.background = element_rect(fill = "grey90"),
+    plot.caption = element_text(hjust = .95, size = 7)
   )
 
 # ggsave(
@@ -252,13 +259,15 @@ imunizacoes_dtp <- imunizacoes_tidy |>
     # subtitle = ""
     x = "",
     y = "Cobertura vacinal",
-    caption = "Dados: Ministério da Saúde | @lppufsm"
+    caption = "Dados: Base dos Dados (Ministério da Saúde) | @lppufsm"
   ) +
   theme_minimal() +
   theme(
     # plot.margin = unit(c(0.3, 1, 1, 0.1), "cm"),
     axis.title = element_text(size = 10),
-    text = element_text(family = "Roboto")
+    text = element_text(family = "Roboto"),
+    plot.background = element_rect(fill = "grey90"),
+    plot.caption = element_text(hjust = .95, size = 7)
   )
 
 # ggsave(
@@ -320,13 +329,15 @@ imunizacoes_febre_amarela <- imunizacoes_tidy |>
     # subtitle = "",
     x = "",
     y = "Cobertura vacinal",
-    caption = "Dados: Ministério da Saúde | @lppufsm"
+    caption = "Dados: Base dos Dados (Ministério da Saúde) | @lppufsm"
   ) +
   theme_minimal() +
   theme(
     # plot.margin = unit(c(0.3, 1, 1, 0.1), "cm"),
     axis.title = element_text(size = 10),
-    text = element_text(family = "Roboto")
+    text = element_text(family = "Roboto"),
+    plot.background = element_rect(fill = "grey90"),
+    plot.caption = element_text(hjust = .95, size = 7)
   )
 
 # ggsave(
@@ -362,13 +373,15 @@ imunizacoes_hepatite_b <- imunizacoes_tidy |>
     # subtitle = "",
     x = "",
     y = "Cobertura vacinal",
-    caption = "Dados: Ministério da Saúde | @lppufsm"
+    caption = "Base dos Dados (Ministério da Saúde) | @lppufsm"
   ) +
   theme_minimal() +
   theme(
     # plot.margin = unit(c(0.3, 1, 1, 0.1), "cm"),
     axis.title = element_text(size = 10),
-    text = element_text(family = "Roboto")
+    text = element_text(family = "Roboto"),
+    plot.background = element_rect(fill = "grey90"),
+    plot.caption = element_text(hjust = .95, size = 7)
   )
 
 # ggsave(
@@ -428,13 +441,15 @@ imunizacoes_poliomelite <- imunizacoes_tidy |>
     title = "Cobertura vacinal para a Poliomelite na cidade de Santa Maria, RS",
     x = "",
     y = "Cobertura vacinal",
-    caption = "Dados: Ministério da Saúde | @lppufsm"
+    caption = "Dados: Base dos Dados (Ministério da Saúde) | @lppufsm"
   ) +
   theme_minimal() +
   theme(
     # plot.margin = unit(c(0.3, 1, 1, 0.1), "cm"),
     axis.title = element_text(size = 10),
-    text = element_text(family = "Roboto")
+    text = element_text(family = "Roboto"),
+    plot.background = element_rect(fill = "grey90"),
+    plot.caption = element_text(hjust = .95, size = 7)
   )
 
 # ggsave(
@@ -448,82 +463,111 @@ imunizacoes_poliomelite <- imunizacoes_tidy |>
 # )
 
 
-## TOTAL
+## TRÍPLICE BACTERIANA
 
-imunizacoes_totais <- imunizacoes_tidy |>
-  dplyr::filter(tipos == "cobertura_total" & ano >= 2001) |>
+imunizacao_triplice_bacteriana <- imunizacoes_tidy |>
+  dplyr::filter(tipos  == "cobertura_triplice_bacteriana" & ano >= 2001) |>
   dplyr::mutate(n = n/100) |>
   ggplot() +
   aes(x = ano, y = n) +
   geom_line(size = 1.3, color = "royal blue") +
-  annotate(
-    "text",
-    x = 2009,
-    y = 0.16,
-    label = "Após atingir 104.71%, em 2018, \na cobertura vacinal da cidade caiu para 58.28% em 2021, \nnúmero superior apenas em relação ao ano de 2016, com 55.33%.",
-    size = 3
+  scale_x_continuous(
+    limits = c(2001, 2021),
+    breaks = seq(2001, 2021, 2)
   ) +
-  geom_curve(
-    aes(
-      x = 2014.5,
-      y = 0.20,
-      xend = 2016,
-      yend = 0.50
-    ),
-    size = 1,
-    arrow = arrow(length = unit(0.03, "npc")),
-    color = "grey30"
+  scale_y_continuous(
+    limits = c(0, 1),
+    breaks = seq(0, 1, 0.2),
+    labels = scales::percent
   ) +
-  geom_curve(
-    aes(
-      x = 2014.5,
-      y = 0.20,
-      xend = 2018,
-      yend = 0.90
-    ),
-    size = 1,
-    arrow = arrow(length = unit(0.03, "npc")),
-    color = "grey30"
+  labs(
+    title = "Cobertura vacinal para a Tríplice Bacteriana na \ncidade de Santa Maria, RS",
+    x = "",
+    y = "Cobertura vacinal",
+    caption = "Dados: Base dos Dados (Ministério da Saúde) | @lppufsm"
   ) +
-  geom_curve(
-    aes(
-      x = 2014.5,
-      y = 0.20,
-      xend = 2021,
-      yend = 0.55
-    ),
-    size = 1,
-    arrow = arrow(length = unit(0.03, "npc")),
-    color = "grey30"
+  theme_minimal() +
+  theme(
+    # plot.margin = unit(c(0.3, 1, 1, 0.1), "cm"),
+    axis.title = element_text(size = 10),
+    text = element_text(family = "Roboto"),
+    plot.background = element_rect(fill = "grey90"),
+    plot.caption = element_text(hjust = .95, size = 7)
+  )
+
+
+# ggsave(
+#   filename = "imunizacao_triplice_bacteriana.png",
+#   plot = imunizacao_triplice_bacteriana,
+#   path = "output/img/",
+#   width = 1800,
+#   height = 1800,
+#   units = "px",
+#   dpi = 300
+# )
+
+
+## DTP + TRÍPLICE BACTERIANA
+
+imunizacoes_dtp_trip_bac <- imunizacoes_tidy |>
+  dplyr::filter(tipos == "cobertura_dtp" | tipos == "cobertura_triplice_bacteriana") |>
+  tidyr::pivot_wider(
+    names_from = tipos,
+    values_from = "n"
+  )
+
+
+imunizacoes_dtp_trip_bacteriana <- imunizacoes_dtp_trip_bac |>
+  dplyr::filter(ano >= 2001) |>
+  dplyr::mutate(
+    cobertura_dtp = cobertura_dtp/100,
+    cobertura_triplice_bacteriana = cobertura_triplice_bacteriana/100
+  ) |>
+  tidyr::pivot_longer(cols = !c(ano, sigla_uf, id_municipio),
+                      names_to = "cobertura",
+                      values_to = "n") |>
+  ggplot() +
+  aes(x = ano, y = n, color = cobertura) +
+  geom_line(size = 1.3) +
+  scale_color_manual(
+    values = c("royal blue", "red"),
+    labels = c("DTP", "Tríplice Bacteriana"),
+    guide = guide_legend(),
+    name = "Cobertura"
   ) +
   scale_x_continuous(
     limits = c(2001, 2021),
     breaks = seq(2001, 2021, 2)
   ) +
   scale_y_continuous(
-    limits = c(0, 1.2),
-    breaks = seq(0, 1.2, 0.20),
+    limits = c(0, 1.1),
+    breaks = seq(0, 1.1, 0.2),
     labels = scales::percent
   ) +
   labs(
-    title = "Cobertura vacinal total na cidade de Santa Maria, RS",
+    title = "Cobertura vacinal para DTP e Tríplice Bacteriana na \ncidade de Santa Maria, RS",
     x = "",
     y = "Cobertura vacinal",
-    caption = "Dados: Ministério da Saúde | @lppufsm"
+    caption = "Base dos Dados (Ministério da Saúde) | @lppufsm"
   ) +
   theme_minimal() +
   theme(
     # plot.margin = unit(c(0.3, 1, 1, 0.1), "cm"),
     axis.title = element_text(size = 10),
-    text = element_text(family = "Roboto")
+    text = element_text(family = "Roboto"),
+    plot.background = element_rect(fill = "grey90"),
+    plot.caption = element_text(hjust = .95, size = 7),
+    legend.position = "bottom",
+    legend.spacing.x = unit(0.5, "cm")
   )
 
-ggsave(
-  filename = "imunizacoes_totais.png",
-  plot = imunizacoes_totais,
-  path = "output/img/",
-  width = 1800,
-  height = 1800,
-  units = "px",
-  dpi = 300
-)
+
+# ggsave(
+#   filename = "imunizacoes_dtp_trip_bacteriana.png",
+#   plot = imunizacoes_dtp_trip_bacteriana,
+#   path = "output/img/",
+#   width = 1800,
+#   height = 1800,
+#   units = "px",
+#   dpi = 300
+# )
