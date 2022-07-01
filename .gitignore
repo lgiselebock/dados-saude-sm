@@ -4,4 +4,6 @@
 .httr-oauth
 .DS_Store
 
-dados/
+dados/atencao_basica.rds
+dados/estabelecimentos.rds
+dados/mortalidade.rds
