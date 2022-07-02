@@ -34,7 +34,8 @@ imunizacoes_tidy_filtro <- imunizacoes_tidy |>
       tipos == "cobertura_poliomielite" |
       tipos == "cobertura_febre_amarela" |
       tipos == "cobertura_hepatite_b" |
-      tipos == "cobertura_triplice_bacteriana"
+      tipos == "cobertura_penta"
+      # tipos == "cobertura_triplice_bacteriana"
   )
 
 
@@ -63,7 +64,8 @@ imunizacoes_visualizar <-
       tipos == "cobertura_poliomielite" ~ "Poliomelite",
       tipos == "cobertura_febre_amarela" ~ "Febre \nAmarela",
       tipos == "cobertura_hepatite_b" ~ "Hepatite B",
-      tipos == "cobertura_triplice_bacteriana" ~ "Tríplice \nBacteriana"
+      # tipos == "cobertura_triplice_bacteriana" ~ "Tríplice \nBacteriana"
+      tipos == "cobertura_penta" ~ "Pentavalente"
     ),
     painel = dplyr::case_when(
       painel == "cobertura_total" ~ "Total",
@@ -72,14 +74,39 @@ imunizacoes_visualizar <-
       painel == "cobertura_poliomielite" ~ "Poliomelite",
       painel == "cobertura_febre_amarela" ~ "Febre \nAmarela",
       painel == "cobertura_hepatite_b" ~ "Hepatite B",
-      painel == "cobertura_triplice_bacteriana" ~ "Tríplice \nBacteriana"
+      # painel == "cobertura_triplice_bacteriana" ~ "Tríplice \nBacteriana"
+      painel == "cobertura_penta" ~ "Pentavalente"
     ),
     numero = ifelse((ano == min(ano) |
                        ano == max(ano)) & realce == 1, 1, 0),
     hjust = dplyr::case_when(ano == min(ano) ~ 1.2,
                              ano == max(ano) ~ -0.2,
                              TRUE ~ NA_real_)
-  )
+  ) |>
+  dplyr::mutate(tipos = factor(
+    tipos,
+    levels = c(
+      "BCG",
+      "DTP",
+      "Hepatite B",
+      "Pentavalente",
+      "Febre \nAmarela",
+      "Poliomelite",
+      "Total"
+    )
+  ),
+  painel = factor(
+    painel,
+    levels = c(
+      "BCG",
+      "DTP",
+      "Hepatite B",
+      "Pentavalente",
+      "Febre \nAmarela",
+      "Poliomelite",
+      "Total"
+    )
+  ))
 
 imunizacoes_todas <- imunizacoes_visualizar |>
   dplyr::filter(realce == 0) |>
@@ -137,21 +164,22 @@ imunizacoes_todas <- imunizacoes_visualizar |>
     # plot.margin = unit(c(0.3, 1, 1, 1), "cm"),
     text = element_text(family = "Roboto"),
     plot.background = element_rect(fill = "grey90"),
-    plot.caption = element_text(hjust = .95, size = 7)
+    plot.caption = element_text(hjust = .95, size = 7),
+    strip.text.y = element_text(size = 8)
   ) +
   facet_wrap(vars(painel), nrow = 7, strip.position = "left") +
   coord_cartesian(clip = "off")
 
 
-# ggsave(
-#   filename = "imunizacoes_todas.png",
-#   plot = imunizacoes_todas,
-#   path = "output/img/",
-#   width = 1800,
-#   height = 1800,
-#   units = "px",
-#   dpi = 300
-# )
+ggsave(
+  filename = "imunizacoes_todas.png",
+  plot = imunizacoes_todas,
+  path = "output/img/",
+  width = 1800,
+  height = 1800,
+  units = "px",
+  dpi = 300
+)
 
 
 ## BCG
